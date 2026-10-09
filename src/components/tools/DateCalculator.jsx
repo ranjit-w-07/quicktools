@@ -1,0 +1,9 @@
+import { useState } from "react";
+import "./shared-new-tools.css";
+import "./DateCalculator.css";
+export default function DateCalculator(){
+ const [date,setDate]=useState(new Date().toISOString().slice(0,10)),[days,setDays]=useState("30"),[operation,setOperation]=useState("add");
+ const n=Number(days);let result="";
+ if(date&&days!==""&&Number.isFinite(n)&&Number.isInteger(n)&&n>=0&&n<=100000){const d=new Date(`${date}T12:00:00Z`);d.setUTCDate(d.getUTCDate()+(operation==="add"?n:-n));result=Number.isNaN(d.getTime())?"":d.toISOString().slice(0,10);}
+ return <section className="new-tool-section date-calculator-tool"><div className="new-tool-container"><div className="new-tool-card"><h2 className="new-tool-title">Date Calculator</h2><p className="new-tool-description">Add or subtract a number of days from a date.</p><div className="new-tool-form"><div className="new-tool-field"><label htmlFor="date-start">Starting date</label><input id="date-start" type="date" value={date} onChange={e=>setDate(e.target.value)} /></div><div className="new-tool-field"><label htmlFor="date-operation">Operation</label><select id="date-operation" value={operation} onChange={e=>setOperation(e.target.value)}><option value="add">Add days</option><option value="subtract">Subtract days</option></select></div><div className="new-tool-field new-tool-span"><label htmlFor="date-days">Number of days</label><input id="date-days" type="number" min="0" max="100000" step="1" value={days} onChange={e=>setDays(e.target.value)} /></div></div><div className="new-tool-result"><p>Resulting date</p><strong>{result||"Enter a valid date and whole number of days"}</strong>{result&&<p>{new Date(`${result}T12:00:00Z`).toLocaleDateString("en-IN",{weekday:"long",year:"numeric",month:"long",day:"numeric",timeZone:"UTC"})}</p>}</div></div></div></section>;
+}

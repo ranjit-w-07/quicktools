@@ -1,0 +1,3 @@
+@import "./shared-new-tools.css";
+/* Responsive styling for AgeCalculator. */
+.age-calculator-tool .new-tool-result strong { font-variant-numeric: tabular-nums; }

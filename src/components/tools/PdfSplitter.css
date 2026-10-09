@@ -1,0 +1,4 @@
+@import "./shared-new-tools.css";
+/* Tool-specific responsive styling for PDF Splitter. */
+.pdfSplitter-tool .new-tool-title { color: #0f172a; }
+.pdfSplitter-tool .new-tool-primary { box-shadow: 0 5px 14px rgba(37,99,235,.15); }

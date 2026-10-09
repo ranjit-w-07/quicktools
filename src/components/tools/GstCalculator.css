@@ -1,0 +1,3 @@
+@import "./shared-new-tools.css";
+/* Responsive styling for GstCalculator. */
+.gst-calculator-tool .new-tool-result strong { font-variant-numeric: tabular-nums; }

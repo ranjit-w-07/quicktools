@@ -1,5 +1,8 @@
 import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import "./App.css";
+import PrivacyPolicy from "./components/pages/PrivacyPolicy.jsx";
+import TermsOfService from "./components/pages/TermsOfService.jsx";
+import ContactUs from "./components/pages/ContactUs.jsx";
 
 const toolComponents = {
   "jpg-to-pdf": lazy(() => import("./components/JpgToPdf.jsx")),
@@ -23,6 +26,7 @@ const toolComponents = {
   "discount-calculator": lazy(() => import("./components/tools/DiscountCalculator.jsx")),
   "date-calculator": lazy(() => import("./components/tools/DateCalculator.jsx")),
   "gst-calculator": lazy(() => import("./components/tools/GstCalculator.jsx")),
+  
 };
 
 const toolGroups = [
@@ -78,7 +82,11 @@ const allTools = toolGroups.flatMap((group) =>
 );
 
 function getToolFromPath() {
-  const match = window.location.pathname.match(/^\/tools\/([^/]+)\/?$/);
+  const path = window.location.pathname;
+  if (path === "/privacy") return "privacy";
+  if (path === "/terms") return "terms";
+  if (path === "/contact") return "contact";
+  const match = path.match(/^\/tools\/([^/]+)\/?$/);
   return match ? match[1] : null;
 }
 
@@ -135,7 +143,30 @@ function App() {
       </div>
     </header>
   );
-
+if (activeTool === "privacy") {
+  return (
+    <div className="app tool-app">
+      <Header />
+      <main className="tool-page-main"><div className="container" style={{ padding: "40px 0" }}><PrivacyPolicy /></div></main>
+    </div>
+  );
+}
+if (activeTool === "terms") {
+  return (
+    <div className="app tool-app">
+      <Header />
+      <main className="tool-page-main"><div className="container" style={{ padding: "40px 0" }}><TermsOfService /></div></main>
+    </div>
+  );
+}
+if (activeTool === "contact") {
+  return (
+    <div className="app tool-app">
+      <Header />
+      <main className="tool-page-main"><div className="container" style={{ padding: "40px 0" }}><ContactUs /></div></main>
+    </div>
+  );
+}
   if (activeTool && ActiveComponent) {
     return (
       <div className="app tool-app">
@@ -217,7 +248,20 @@ function App() {
           <div className="about-visual"><div className="about-visual-card"><div className="about-visual-icon">ϟ</div><strong>QuickTools</strong><span>Everyday tasks,<br />made simpler.</span><div className="visual-dots"><i /><i /><i /></div></div></div>
         </div></div></section>
       </main>
-      <footer className="footer qt-footer"><div className="container footer-inner"><div className="footer-brand"><button className="logo logo-button" onClick={goHome}><img className="logo-icon-image" src="/quicktools-logo.svg" alt="" aria-hidden="true" /><span className="brand-word">Quick<span>Tools</span></span></button><p>Simple online tools for everyday tasks.</p></div><div className="footer-links"><a href="#home">Home</a><a href="#tools">Tools</a><a href="#about">About</a></div><div className="footer-copy"><p>© 2026 QuickTools. All rights reserved.</p></div></div></footer>
+      <footer className="footer qt-footer"><div className="container footer-inner"><div className="footer-brand"><button className="logo logo-button" onClick={goHome}><img className="logo-icon-image" src="/quicktools-logo.svg" alt="" aria-hidden="true" /><span className="brand-word">Quick<span>Tools</span></span></button><p>Simple online tools for everyday tasks.</p></div>
+      <div className="footer-links">
+  <a href="#home">Home</a>
+  <a href="#tools">Tools</a>
+  <a href="#about">About</a>
+  <a href="/privacy" onClick={(e) => { e.preventDefault(); window.history.pushState({}, "", "/privacy"); setActiveTool("privacy"); window.scrollTo({ top: 0 }); }}>Privacy Policy</a>
+  <a href="/terms" onClick={(e) => { e.preventDefault(); window.history.pushState({}, "", "/terms"); setActiveTool("terms"); window.scrollTo({ top: 0 }); }}>Terms</a>
+  <a href="/contact" onClick={(e) => { e.preventDefault(); window.history.pushState({}, "", "/contact"); setActiveTool("contact"); window.scrollTo({ top: 0 }); }}>Contact</a>
+</div>
+      <div className="footer-copy">
+      <p>© 2026 QuickTools. All rights reserved.</p>
+      </div>
+      </div>
+      </footer>
     </div>
   );
 }
